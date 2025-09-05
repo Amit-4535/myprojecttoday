@@ -1,10 +1,10 @@
 ---
-- name: Stop Apache2 service
+- name: remove Apache2 service
   hosts: demo   # or your ansible group / worker node
   become: true        # run with sudo
   tasks:
-    - name: Ensure Apache2 is stopped
-      service:
+    - name: Ensure Apache2 is removed
+      apt:
         name: apache2
-        state: stopped
+        state: absent
 

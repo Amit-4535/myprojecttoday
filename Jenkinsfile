@@ -18,12 +18,12 @@ pipeline {
       }
       stage ('Creating Directory') {
         steps {
-          sh 'mkdir -p Amitprojects'
+          sh 'mkdir -p Amitproject'
         }
       }
       stage ('demo.txt') {
         steps {
-          sh 'echo "demo file created under Amitprojects directory" > Amitprojects/demo.txt'
+          sh 'echo "demo file created under Amitprojects directory" > Amitproject/demo.txt'
         }
       }
     }

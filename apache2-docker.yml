@@ -1,0 +1,44 @@
+---
+- name: Deploy Apache2 inside Docker
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Ensure apt is updated
+      apt:
+        update_cache: yes
+
+    - name: Install required packages
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Start and enable Docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Pull Apache image
+      community.docker.docker_image:
+        name: httpd
+        source: pull
+
+    - name: Run Apache container
+      community.docker.docker_container:
+        name: apache2
+        image: httpd
+        ports:
+          - "80:80"
+        state: started
+        restart_policy: always
+

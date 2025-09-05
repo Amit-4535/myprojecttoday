@@ -1,6 +1,6 @@
 ---
 - name: Stop Apache2 service
-  hosts: webservers   # or your ansible group / worker node
+  hosts: demo   # or your ansible group / worker node
   become: true        # run with sudo
   tasks:
     - name: Ensure Apache2 is stopped

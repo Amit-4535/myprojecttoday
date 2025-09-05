@@ -1,6 +1,6 @@
 ---
 - name: Deploy Apache2 inside Docker
-  hosts: webservers
+  hosts: demo
   become: yes
 
   tasks:

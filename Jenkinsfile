@@ -1,30 +1,25 @@
 pipeline {
   agent any
-    stages {
-      stage ('build stage') {
-        steps {
-          echo "build stage is running"
-        }
-      }
-      stage ('test stage') {
-        steps {
-          echo "Running test stage"
-        }
-      }
-      stage ('Deploy Stage') {
-        steps {
-          echo "Runnng Deploy stage"
-        }
-      }
-      stage ('Creating Directory') {
-        steps {
-          sh 'mkdir -p Amitproject'
-        }
-      }
-      stage ('demo.txt') {
-        steps {
-          sh 'echo "demo file created under Amitprojects directory" > Amitproject/demo.txt'
-        }
+
+  stages {
+    stage('Copy Playbook to Ansible Master') {
+      steps {
+        sh '''
+          echo "Copying playbook to Ansible master..."
+          scp -o StrictHostKeyChecking=no apache2.yml root@52.0.8.178:/tmp/apache2.yml
+        '''
       }
     }
+
+    stage('Run Playbook from Ansible Master') {
+      steps {
+        sh '''
+          echo "Running playbook on Ansible master..."
+          ssh -o StrictHostKeyChecking=no root@52.0.8.178 \
+          "ansible-playbook /tmp/apache2.yml -i /etc/ansible/hosts"
+        '''
+      }
+    }
+  }
 }
+

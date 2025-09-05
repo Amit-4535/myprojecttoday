@@ -1,0 +1,25 @@
+---
+- name: Install and start Apache2
+  hosts: demo   # Replace with your inventory group or host
+  become: yes         # Run as root
+  gather_facts: yes
+  tasks:
+
+    - name: Install Apache2 on Debian/Ubuntu
+      apt:
+        name: apache2
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install Apache on RedHat/CentOS
+      yum:
+        name: httpd
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Ensure Apache service is started and enabled
+      service:
+        name: "{{ 'apache2' if ansible_os_family == 'Debian' else 'httpd' }}"
+        state: started
+        enabled: yes
+

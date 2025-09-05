@@ -6,7 +6,7 @@ pipeline {
       steps {
         sh '''
           echo "Copying playbook to Ansible master..."
-          scp -o StrictHostKeyChecking=no apache2.yml root@52.0.8.178:/tmp/apache2.yml
+          scp -o StrictHostKeyChecking=no apache2.yml ansible@52.0.8.178:/tmp/apache2.yml
         '''
       }
     }
@@ -15,8 +15,7 @@ pipeline {
       steps {
         sh '''
           echo "Running playbook on Ansible master..."
-          ssh -o StrictHostKeyChecking=no root@52.0.8.178 \
-          "ansible-playbook /tmp/apache2.yml -i /etc/ansible/hosts"
+          ssh -o StrictHostKeyChecking=no ansible@52.0.8.178 "ansible-playbook /tmp/apache2.yml -i /etc/ansible/hosts"
         '''
       }
     }
